@@ -3,7 +3,7 @@
 
 from distutils.core import setup
 
-v = "1.8.4"
+v = "1.9.0"
 
 setup(name="TechParser",
 	version=v,
@@ -13,7 +13,7 @@ setup(name="TechParser",
 	url="https://github.com/SPython/tech-parser",
 	download_url="https://github.com/SPython/tech-parser/tarball/"+v,
 	keywords=["parser", "article", "web", "ranking", "rss"],
-	requires=["grab", "mako", "bottle", "Daemo"],
+	requires=["grab", "mako", "bottle", "Daemo", "pycrypto", "feedparser", "nltk"],
 	classifiers=[],
 	packages=["TechParser", "TechParser.parsers"],
 	package_data={"TechParser": ["templates/base.html",
