@@ -101,6 +101,8 @@ And then open [localhost:8080](http://localhost:8080) in your browser.<br/>
 ```python -m TechParser lock``` to not allow updating articles.<br/>
 ```python -m TechParser unlock``` to allow updating articles (run this if you can't update articles).<br/>
 ```python -m TechParser locked?``` to check if updating articles is allowed.<br/>
+```python -m TechParser train``` to train classifier (useful after chaning `ngrams`).<br/>
+```python -m TechParser rerank``` to rank articles again.<br/>
 ```python -m TechParser -h``` show help.<br/>
 ```python -m TechParser <action> --config <path to configuration file>``` set path to configuration file.<br/>
 
