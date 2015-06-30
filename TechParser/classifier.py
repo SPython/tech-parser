@@ -5,6 +5,7 @@ from __future__ import division
 
 import os
 import re
+import codecs
 
 from collections import Counter
 
@@ -122,7 +123,7 @@ class TextClassifier(object):
     
     @staticmethod
     def load_irregular_words():
-        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'irregular_words.csv')) as f:
+        with codecs.open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'irregular_words.csv'), 'r', 'utf8') as f:
             for line in f:
                 line = line.strip().split(',')
                 first = line[0]
