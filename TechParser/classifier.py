@@ -63,7 +63,7 @@ class TextClassifier(object):
             words = self.prepare_words(word)
         
             for word in words:
-                self.counts['interesting'][word] += priority
+                self.counts['interesting'][word] *= priority
         
         for i in get_conf.config.boring_words:
             if type(i) in {list, tuple, set}:
@@ -75,7 +75,7 @@ class TextClassifier(object):
             words = self.prepare_words(word)
             
             for word in words:
-                self.counts['boring'][word] += priority
+                self.counts['boring'][word] *= priority
     
     @staticmethod
     def unescape(text):
