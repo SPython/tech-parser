@@ -19,6 +19,12 @@ except NameError:
     def find_shared(keys1, keys2):
         return keys1 & keys2
 
+def encodestr(string):
+    return string.encode('utf8')
+
+def decodestr(string):
+    return string.decode('utf8')
+
 try:
     dict_keys = dict.iterkeys
     dict_values = dict.itervalues

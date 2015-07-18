@@ -5,6 +5,7 @@ import imp
 import os
 import json
 import hashlib
+from TechParser.py2x import unicode_, encodestr
 
 logdir = os.path.expanduser("~")
 logdir = os.path.join(logdir, ".tech-parser")
@@ -12,7 +13,7 @@ logdir = os.path.join(logdir, ".tech-parser")
 config = None
 
 def hash_string(string):
-    return hashlib.md5(string.encode()).hexdigest()
+    return hashlib.md5(encodestr(unicode_(string))).hexdigest()
 
 class Config(object):
     def __init__(self, hide=False, filename='', **kwargs):
