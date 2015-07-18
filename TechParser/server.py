@@ -46,7 +46,7 @@ COMMA_SEPARATE_REGEX = re.compile(r'[ ]*,[ ]*')
 def encode_string(s):
     if isinstance(s, unicode__):
         return s.encode('utf8')
-    return s.decode('utf8')
+    return s
 
 def remove_tags(s):
     return REMOVE_TAGS_REGEX.sub('', s)
