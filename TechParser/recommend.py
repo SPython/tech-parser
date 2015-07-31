@@ -61,7 +61,9 @@ def rank_articles(articles, classifier=None, word_bias=False):
         
 def add_article(addr):
     if get_conf.config.data_format == 'db':
-        return getArticleFromHistoryByLink(addr)
+        article = article_from_list(getArticle(addr))
+        add_to_interesting(article)
+        return
     
     path = os.path.join(get_conf.logdir, 'articles_dumped')
     
@@ -77,7 +79,9 @@ def add_article(addr):
 
 def add_article_to_blacklist(addr):
     if get_conf.config.data_format == 'db':
-        return getArticleFromBlacklistByLink(addr)
+        article = article_from_list(getArticle(addr))
+        add_to_blacklist(article)
+        return
     
     path = os.path.join(get_conf.logdir, 'articles_dumped')
     

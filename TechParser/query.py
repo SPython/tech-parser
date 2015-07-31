@@ -30,6 +30,8 @@ Q_GET_ARTICLE_FROM_BLACKLIST = Blacklist.select(condition='link={PARAM}',
     what='title, link, summary, fromrss, icon, color, source')
 Q_GET_BLACKLIST = Blacklist.select('title, link, summary, fromrss, icon, color, source',
     order_by='id DESC')
+Q_GET_ARTICLE = Articles.select('title, link, summary, fromrss, icon, color, source',
+    condition='link={PARAM}', limit=1)
 Q_GET_HISTORY = History.select('title, link, summary, fromrss, icon, color, source',
     order_by='id DESC')
 Q_CLEAR_ARTICLES = Articles.delete()

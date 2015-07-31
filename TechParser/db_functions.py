@@ -242,6 +242,11 @@ def select_articles_from_page(page_number):
                'color': i[7],
                'page_number': page_number}
 
+def getArticle(link):
+    db.Database.main_database.execute_query(Q_GET_ARTICLE, [(link,)], commit=False)
+    
+    return db.Database.main_database.fetchone()
+
 def select_all_articles():
     mainDB = db.Database.main_database
     

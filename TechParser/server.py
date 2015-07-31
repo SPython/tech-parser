@@ -216,14 +216,20 @@ def add_to_blacklist(addr):
 @login_required
 def rm_from_blacklist(addr):
     recommend.remove_from_blacklist(addr)
-    disliked_links.remove(addr)
+    try:
+        disliked_links.remove(addr)
+    except KeyError:
+        pass
     remove_cache()
 
 @route('/histrm/<addr:path>')
 @login_required
 def rm_from_history(addr):
     recommend.remove_from_history(addr)
-    liked_links.remove(addr)
+    try:
+        liked_links.remove(addr)
+    except KeyError:
+        pass
     remove_cache()
 
 def remove_cache(name=None):

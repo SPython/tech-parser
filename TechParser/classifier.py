@@ -225,15 +225,21 @@ class TextClassifier(object):
         for category, changes in self._counts_change.items():
             old_count = self.sample_counts[category]
             new_sample_count = old_count + self._sample_counts_change[category]
-        
-            r = old_count / new_sample_count
+            
+            try:
+                r = old_count / new_sample_count
+            except ZeroDivisionError:
+                r = 0.0
             counter = self.counts[category]
             
             if r != 0:
                 for k in counter.keys():
                     counter[k] *= r
-            for k, v in changes.items():
-                counter[k] += v / new_sample_count
+            try:
+                for k, v in changes.items():
+                    counter[k] += v / new_sample_count
+            except ZeroDivisionError:
+                pass
             
             changes.clear()
             self.sample_counts[category] = new_sample_count

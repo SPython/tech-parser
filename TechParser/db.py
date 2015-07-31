@@ -205,7 +205,7 @@ def select(what, from_where, condition='', order_by='', limit='', offset='', db=
         limit = ' LIMIT {0}'.format(limit)
     if offset:
         offset = ' OFFSET {0}'.format(offset)
-    return Query(db, s.format(what, from_where, order_by, offset, limit, condition))
+    return Query(db, s.format(what, from_where, order_by, condition, offset, limit))
 
 def create_index(name, table_name, columns='', check_existance=True, unique=False):
     s = 'CREATE {0}INDEX {{0}}{1} ON {{1}};'.format('UNIQUE ' if unique else '',
