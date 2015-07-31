@@ -330,3 +330,6 @@ enable_caching = True
 # Keep in mind that bigger number means bigger disk usage #
 ###########################################################
 ngrams = 1
+
+# Show random articles at the bottom
+enable_random = True
