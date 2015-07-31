@@ -155,7 +155,10 @@ def makeLinksAbsolute(g):
         i.attrib['src'] = i.attrib.get('src', 'about:blank')
 
 def makeImageLinksAbsolute(entry, g):
-    summary_element = fromstring(entry['summary'])
+    try:
+        summary_element = fromstring(entry['summary'])
+    except KeyError:
+        return
     for i in summary_element.cssselect('img'):
         i.attrib['src'] = g.make_url_absolute(i.attrib.get('src', 'about:blank'))
     entry['summary'] = tostring(summary_element).decode()
@@ -167,14 +170,17 @@ def extractEntries(grab_object, source, parse_image=True):
     
     for entry in parsed_entries:
         makeImageLinksAbsolute(entry, grab_object)
-        cleaned = clean_text(entry['summary'], parse_image)
-        text, image = cleaned
-        if parse_image and not len(image):
-            for link in entry['links']:
-                if link.get('type', '').startswith('image/'):
-                    image = '<img src="{0}" />'.format(grab_object.make_url_absolute(link['href']))
-                    text = image + text
-                    break
+        try:
+            cleaned = clean_text(entry['summary'], parse_image)
+            text, image = cleaned
+            if parse_image and not len(image):
+                for link in entry['links']:
+                    if link.get('type', '').startswith('image/'):
+                        image = '<img src="{0}" />'.format(grab_object.make_url_absolute(link['href']))
+                        text = image + text
+                        break
+        except KeyError:
+            text = ''
         
         entry = {'title': escape_title(entry['title']),
                  'link': entry['link'],

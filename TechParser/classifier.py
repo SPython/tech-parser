@@ -55,27 +55,31 @@ class TextClassifier(object):
     def addWordsFromConfiguration(self):
         for i in get_conf.config.interesting_words:
             if type(i) in {list, tuple, set}:
-                word, priority = i
+                phrase, priority = i
             else:
                 priority = 1.0
-                word = i
+                phrase = i
             
-            words = self.prepare_words(word)
-        
-            for word in words:
-                self.counts['interesting'][word] *= priority
+            ngrams = self.prepare_ngrams(phrase, n=get_conf.config.ngrams)
+            phrase_word_length = len(phrase.split())
+            
+            for ngram in ngrams:
+                d = max(get_conf.config.ngrams - len(ngram.split()) + 1, 1)
+                self.counts['interesting'][ngram] *= (priority + 1.0) / d
         
         for i in get_conf.config.boring_words:
             if type(i) in {list, tuple, set}:
-                word, priority = i
+                phrase, priority = i
             else:
                 priority = 1.0
-                word = i
+                phrase = i
             
-            words = self.prepare_words(word)
+            ngrams = self.prepare_ngrams(phrase, n=get_conf.config.ngrams)
+            phrase_word_length = len(phrase.split())
             
-            for word in words:
-                self.counts['boring'][word] *= priority
+            for ngram in ngrams:
+                d = max(get_conf.config.ngrams - len(ngram.split()) + 1, 1)
+                self.counts['boring'][ngram] *= (priority + 1.0) / d
     
     @staticmethod
     def unescape(text):
