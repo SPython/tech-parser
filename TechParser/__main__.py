@@ -343,7 +343,7 @@ def run_server(host, port):
 def main(arguments):
     arg_parser = argparse.ArgumentParser(description="""\
 Article parser.
-Available commands: start|stop|restart|update|run HOST:PORT|lock|unlock|locked?|rerank""")
+Available commands: start|stop|restart|update|run HOST:PORT|lock|unlock|locked?|rerank|clean cache""")
     
     arg_parser.add_argument("action", nargs="+",
         action="store", default=[], help="Action to run")
@@ -466,6 +466,10 @@ Available commands: start|stop|restart|update|run HOST:PORT|lock|unlock|locked?|
             except DaemonError as e:
                 logerr('Failed to stop server: {0}'.format(e))
                 sys.exit(1)
+        elif args.action[0] == "clean" and len(args.action) > 1 and args.action[1] == "cache":
+            log("Cleaning cache...")
+            server.remove_cache()
+            log("Done!")
 
 if __name__ == "__main__":
     main(sys.argv[1:])
