@@ -1,0 +1,44 @@
+% if articles:
+	% for article in articles:
+		<%include file="article.html" args="article=article" />
+	% endfor
+% else:
+	% if q:
+		<h3>No articles were found</h3>
+	% else:
+		<h3>There are no articles yet.</h3>
+		% if page == 'main':
+			<p style="font-size: 15px;">
+				% if is_parsing:
+					Hold on for a few minutes.
+				% else:
+					Wait for
+                    <%
+                        import time
+                        remains = int((config.update_interval - time.time() % config.update_interval) / 60.0)
+                        remains = str(remains)
+                        minutes = 'minutes' if not remains.endswith('1') or remains == '11' else 'minute'
+                    %>
+                    ${remains} ${minutes}
+					or run <code>python -m TechParser update</code> manually
+				% endif
+			</p>
+		% elif page == 'history':
+			<p style="font-size: 15px;">
+				You didn't add any articles to history.
+				You can do that by clicking the
+				<img align="top" style="max-height: 24px;"
+					src="/static/icons/like-32.ico" alt="like" />
+				button.
+			</p>
+		% elif page == 'blacklist':
+			<p style="font-size: 15px;">
+				You didn't add any articles to blacklist.
+				You can do that by clicking the
+				<img align="top" style="max-height: 24px;"
+					src="/static/icons/dislike-32.ico" alt="dislike" />
+				button.
+			</p>
+		% endif
+	% endif
+% endif

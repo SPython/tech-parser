@@ -36,3 +36,5 @@ Q_GET_HISTORY = History.select('title, link, summary, fromrss, icon, color, sour
     order_by='id DESC')
 Q_CLEAR_ARTICLES = Articles.delete()
 Q_SELECT_ALL_ARTICLES = Articles.select()
+Q_GET_RANDOM_ARTICLES = Articles.select('title, link, summary, fromrss, icon, color, source',
+    order_by="RANDOM()", condition="page_number != {PARAM}", limit=10);

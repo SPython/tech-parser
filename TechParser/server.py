@@ -387,9 +387,10 @@ def article_list(page_number=1):
         page_number = 1
 
     q = unicode_(request.GET.getunicode('q', ''))
-    html = get_cache('cached_main_{0}_{1}'.format(page_number, hexlify(q.encode('utf8')).decode('utf8')))
-    if html:
-        return html
+    if not get_conf.config.enable_random or q:
+        html = get_cache('cached_main_{0}_{1}'.format(page_number, hexlify(q.encode('utf8')).decode('utf8')))
+        if html:
+            return html
 
     main_page = cache['templates'].get('articles.html')
     if not main_page:
@@ -453,9 +454,16 @@ def article_list(page_number=1):
         except IndexError:
             requested_page = []
     
+    if get_conf.config.enable_random and not q:
+        random_articles = [escape_link(x) for x in articles_from_list(getRandomArticles(page_number))]
+        set_liked(random_articles)
+    else:
+        random_articles = []
+    
     set_liked(requested_page)
     
     html = main_page.render(articles=requested_page,
+                            random_articles=random_articles,
                             num_pages=num_pages,
                             page_num=page_number,
                             q=q, page='main',
@@ -464,7 +472,7 @@ def article_list(page_number=1):
     if not cache_page:
         cache_page = bool(len(requested_page))
     
-    if cache_page:
+    if cache_page and not get_conf.config.enable_random and not q:
         cache_data('cached_main_{0}_{1}'.format(page_number, hexlify(q.encode('utf8')).decode('utf8')), html)
     return html
 
@@ -572,6 +580,7 @@ def update_config():
         data['perfect_word_count'] = perfect_word_count
         data['enable_caching'] = request.POST.getunicode('v_enable_caching', False) == 'on'
         data['ngrams'] = request.POST.getunicode('v_ngrams', get_conf.config.ngrams)
+        data['enable_random'] = request.POST.getunicode('v_enable_random', False) == 'on'
         
         validator.validate(**data)
         
@@ -601,6 +610,7 @@ def update_config():
         get_conf.config.enable_caching = data['enable_caching']
         if not validator.errors.get('ngrams'):
             get_conf.config.ngrams = int(data['ngrams'])
+        get_conf.config.enable_random = data['enable_random']
     elif type_ == 'parsers':
         for parser in get_conf.config.sites_to_parse.values():
             h = parser['hash']

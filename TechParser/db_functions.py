@@ -247,6 +247,17 @@ def getArticle(link):
     
     return db.Database.main_database.fetchone()
 
+def getRandomArticles(page_number=-1):
+    db.Database.main_database.execute_query(Q_GET_RANDOM_ARTICLES, [(page_number,)], commit=False)
+    
+    v = db.Database.main_database.fetchone()
+    try:
+        while v:
+            yield v
+            v = db.Database.main_database.fetchone()
+    except:
+        pass
+
 def select_all_articles():
     mainDB = db.Database.main_database
     

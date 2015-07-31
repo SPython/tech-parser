@@ -390,6 +390,19 @@
         </div>
         
         <div class="margin-bottom">
+            <label for="v_enable_random" data-name="enable_random">
+                <input type="checkbox" name="v_enable_random"
+                       % if config.enable_random:
+                           checked=""
+                       % endif
+                       autocomplete="off"
+                       value="on" />
+                Enable random articles at the bottom
+            </label>
+        </div>
+
+        
+        <div class="margin-bottom">
             <label for="v_ngrams" data-name="ngrams">
                 N-grams:
             </label>

@@ -1,0 +1,10 @@
+% if page == "main" and random_articles:
+    <div id="random-articles" class="margin-bottom">
+        <h2>Random articles</h2>
+        <div class="margin-bottom">
+            % for article in random_articles:
+                <%include file="article.html" args="article=article" />
+            % endfor
+        </div>
+    </div>
+% endif

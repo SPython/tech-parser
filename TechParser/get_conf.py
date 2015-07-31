@@ -74,6 +74,7 @@ class Config(object):
         self.perfect_word_count = kwargs.get('perfect_word_count')
         self.enable_caching = kwargs.get('enable_caching', True)
         self.ngrams = kwargs.get('ngrams', 1)
+        self.enable_random = kwargs.get('enable_random', True)
         
         auto_fix_config(self, hide=hide)
         
@@ -118,6 +119,7 @@ class Config(object):
         d['perfect_word_count'] = module.perfect_word_count
         d['enable_caching'] = module.enable_caching
         d['ngrams'] = module.ngrams
+        d['enable_random'] = module.enable_random
         d['hide'] = hide
         
         return Config(**d)
@@ -234,3 +236,4 @@ def auto_fix_config(conf=None, hide=False):
     setdefault(conf, 'perfect_word_count', (25, 50, 100, 150, 300, 600, 1200))
     setdefault(conf, 'enable_caching', True)
     setdefault(conf, 'ngrams', 1)
+    setdefault(conf, 'enable_random', True)
