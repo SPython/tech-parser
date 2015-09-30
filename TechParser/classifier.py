@@ -65,7 +65,7 @@ class TextClassifier(object):
             
             for ngram in ngrams:
                 d = max(get_conf.config.ngrams - len(ngram.split()) + 1, 1)
-                self.counts['interesting'][ngram] *= (priority + 1.0) / d
+                self.counts['interesting'][ngram] *= 1.0 + priority / d
         
         for i in get_conf.config.boring_words:
             if type(i) in {list, tuple, set}:
@@ -79,7 +79,7 @@ class TextClassifier(object):
             
             for ngram in ngrams:
                 d = max(get_conf.config.ngrams - len(ngram.split()) + 1, 1)
-                self.counts['boring'][ngram] *= (priority + 1.0) / d
+                self.counts['boring'][ngram] *= 1.0 + priority / d
     
     @staticmethod
     def unescape(text):
