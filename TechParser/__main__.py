@@ -29,6 +29,7 @@ from TechParser.py2x import range, urlencode
 running_as_daemon = False
 # TODO add description for this variable
 parsing = False
+lock_enabled = True
 
 if get_conf.config is None:
     get_conf.set_config_auto()
@@ -164,7 +165,7 @@ def dump_articles(filename="articles_dumped"):
     
     global parsing
     
-    if get_var('parsing', '0') == '1':
+    if lock_enabled and get_var('parsing', '0') == '1':
         log('Already parsing articles. Hold on.')
         return
     
@@ -341,6 +342,8 @@ def run_server(host, port):
     server.run(host=host, port=port, server=config.server)
 
 def main(arguments):
+    global lock_enabled
+    
     arg_parser = argparse.ArgumentParser(description="""\
 Article parser.
 Available commands: start|stop|restart|update|run HOST:PORT|lock|unlock|locked?|rerank|clean cache""")
@@ -354,8 +357,11 @@ Available commands: start|stop|restart|update|run HOST:PORT|lock|unlock|locked?|
     arg_parser.add_argument("--server", help="Server to use")
     arg_parser.add_argument("--db", choices=['sqlite', 'postgresql'],
         help="Database to use: sqlite or postgresql")
+    arg_parser.add_argument("--no-lock", action="store_true", default=False)
     
     args = arg_parser.parse_args(arguments)
+    
+    lock_enabled = not args.no_lock
     
     if args.config:
         get_conf.set_config_from_fname(args.config)
