@@ -1,0 +1,10 @@
+bottle
+lxml
+pycurl
+cssselect
+grab
+feedparser
+PyCrypto
+nltk
+Daemo
+mako
