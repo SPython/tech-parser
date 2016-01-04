@@ -165,7 +165,7 @@ def dump_articles(filename="articles_dumped"):
     
     global parsing
     
-    if lock_enabled and get_var('parsing', '0') == '1':
+    if parsing or (lock_enabled and get_var('parsing', '0') == '1'):
         log('Already parsing articles. Hold on.')
         return
     
